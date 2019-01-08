@@ -1,0 +1,195 @@
+\needsTexFormat{lualatex}
+
+\ProvidesClass{resumeDesc}[2019/01/08]
+
+\RequirePackage{color}
+\RequirePackage[usenames,dvipsnames]{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{xifthen}
+\RequirePackage{intcalc}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\RequirePackage[ocgcolorlinks]{hyperref}
+\definecolor{linkcolour}{rgb}{0,0.2,0.6}
+
+\newcommand{\hideLinks}{
+	\definecolor{linkcolour}{gray}{0.3}
+	\hypersetup{colorlinks,
+	urlcolor=linkcolour, 
+	linkcolor=linkcolour,
+	}
+}
+\renewcommand{\maketitle}{
+	\par{\centering
+			{\Huge \applicant
+		}\bigskip\par}
+}
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+%Contact
+% Contact Information header
+% Arguments:
+% 1 - your phone number
+% 2 - your email address
+% 3 - linkedin username linkedin.com/in/FOOOBAR
+% 4 - Other content
+\newcommand{\contact}[4]{
+\hypersetup{
+	colorlinks,
+	breaklinks,
+	urlcolor=linkcolour,
+	linkcolor=linkcolour,
+	pdftitle={\applicant},
+	bookmarks=true,
+}
+	\ifthenelse{\isempty{#3}}
+	{
+		\def\contactTable{c|c}
+	}{
+		\ifthenelse{\isempty{#4}}
+			{
+				\def\contactTable{c|c|c}
+			}{
+				\def\contactTable{c|c|c|c}
+			}
+	}
+	\begin{center}
+		\begin{tabular}{\contactTable}
+		#1 & 
+		\href{mailto:#2}{#2}  
+		\ifthenelse{\isempty{#3}}{}
+		{
+			&
+			 \href{https://www.linkedin.com/in/#3}
+			 {www.linkedin.com/in/#3}
+		}
+		\ifthenelse{\isempty{#4}}{}
+		{&#4}
+		\end{tabular}
+	\end{center}
+	\hideLinks
+}
+% Github
+% generates a github link
+% arguments
+% 1 - github username
+\newcommand{\github}[1]{
+	\href{https://github.com/#1}
+	{github.com/#1}
+}
+%job environment
+%Arguments:
+%1 - Employer
+%2 - Job title
+%3 - First job bullet
+%4 - Job location
+%5 - Job start
+%6 - Job end (optional)
+\newenvironment{job}[6]
+{%
+	\begin{tabular}{lp{13.5cm}|l}
+		\multicolumn{2}{l|}{\textbf{#1 | }\textbf{#2}} 
+		& \textsc{#5}~-~%
+			\ifthenelse{\isempty{#6}}{\textsl{Current}\\}{\textsc{#6}\\}
+		#3 & \textit{#4} \\
+}
+{
+	\multicolumn{3}{}{}\\
+	\end{tabular}
+}
+
+%job environment
+%Arguments:
+%1 - Project title
+%2 - Project Language
+\newenvironment{project}[3]
+{%
+	\begin{tabular}{lp{13.5cm}|l}
+		\multicolumn{2}{l|}{\textbf{#1}} 
+		 & #2 
+		\\
+}
+{
+	\multicolumn{3}{}{}\\
+	\end{tabular}
+}
+
+%jobItem
+%Arguments
+%1 the job description item
+\newcommand{\jobItem}[1]{\tabitem& #1 }
+
+% Degree
+% Displays a new Degreee
+%Takes 8 Args:
+% 1- Institution
+% 2 - time ( graduation or range)
+% 3 - degree type (B.S., M.S., etc....)
+% 4 - major ( E.g. Nuclear ...)
+% 5 - GPA 
+% 6 - location (e.g. Cambridge)
+% 7 - thesis title
+% 8- thesis adviser
+\newcommand{\degree}[8]{
+    \textbf{#1} & \textsc{#2} \\
+    \textit{#3} \textit{in #4} | \textbf{GPA:} #5  & \textit{#6} \\
+    \textbf{Thesis:} ``#7'' | \textbf{Adviser:} #8 & \\
+}
+
+%How big to make the class table paragraph
+\newcommand{\classSpacing}{6.5cm}
+
+\newcounter{classCounter}
+
+% A two-column table for listing tables
+\newenvironment{classes}{%
+    \setcounter{classCounter}{1}%
+    \begin{tabular}{lp{\classSpacing}lp{\classSpacing}}%
+}
+{
+    \end{tabular}
+}
+%classSection 
+% wraps a classes environment to make it pretty
+%args: a class environment filled with classes
+\newcommand{\classSection}[1]{%
+    \textbf{Relevant Classwork:} & \\
+    #1 & \\
+    \multicolumn{2}{}{}\\
+}
+
+%class
+%Prints out a class in a 2-column table with a bullet point
+%
+%Arguments:
+% 1 Class name
+\newcommand{\class}[1]{%
+	\tabitem& #1% 
+    \ifthenelse{%    
+            \intcalcMod{\value{classCounter}}{2}=0
+    }{\\}{&}
+    \stepcounter{classCounter}%
+}
+
+
+%%%% Makes a skills graph
+%arguments
+% 1- xlabels
+% 2 - ylabels ( will be bolded)
+% 3 - Y extension of axis
+% 4 - coordinates areguments
+\newcommand{\GraphSkills}[4]{
+	\pgfplotsset{width=15cm, height=5cm}
+	\begin{tikzpicture}
+		\begin{axis}[
+				ylabel={\textbf{#2}},
+				symbolic x coords={#1},
+				xtick=data,
+				nodes near coords,
+				nodes near coords align={vertical},
+				enlarge y limits={#3},
+				x tick label style={rotate=45, anchor=east},
+			]
+			\addplot[ybar,fill=black] coordinates {#4};
+		\end{axis}
+	\end{tikzpicture}
+}
