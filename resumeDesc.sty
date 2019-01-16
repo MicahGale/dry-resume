@@ -9,18 +9,7 @@
 \RequirePackage{intcalc}
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.15}
-
-\DeclareOption{ocgcolorlinks}{
-	\PassOptionsToPackage{ocgcolorlinks}{hyperref}
-}
-\DeclareOption{normal}{
-	\PassOptionsToPackage{colorlinks}{hyperref}
-}
-
-\RequirePackage{hyperref}
-\ExecuteOptions{normal}
-
-\ProcessOptions\relax
+\RequirePackage[colorlinks]{hyperref}
 \definecolor{linkcolour}{rgb}{0,0.2,0.6}
 
 \newcommand{\hideLinks}{
