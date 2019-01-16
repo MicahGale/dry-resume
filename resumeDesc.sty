@@ -9,12 +9,23 @@
 \RequirePackage{intcalc}
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.15}
-\RequirePackage[ocgcolorlinks]{hyperref}
+
+\DeclareOption{ocgcolorlinks}{
+	\PassOptionsToPackage{ocgcolorlinks}{hyperref}
+}
+\DeclareOption{normal}{
+	\PassOptionsToPackage{colorlinks}{hyperref}
+}
+
+\RequirePackage{hyperref}
+\ExecuteOptions{normal}
+
+\ProcessOptions\relax
 \definecolor{linkcolour}{rgb}{0,0.2,0.6}
 
 \newcommand{\hideLinks}{
 	\definecolor{linkcolour}{gray}{0.3}
-	\hypersetup{colorlinks,
+	\hypersetup{colorlinks=true,
 	urlcolor=linkcolour, 
 	linkcolor=linkcolour,
 	}
@@ -34,8 +45,6 @@
 % 4 - Other content
 \newcommand{\contact}[4]{
 \hypersetup{
-	colorlinks,
-	breaklinks,
 	urlcolor=linkcolour,
 	linkcolor=linkcolour,
 	pdftitle={\applicant},
@@ -87,7 +96,7 @@
 \newenvironment{job}[6]
 {%
 	\begin{tabular}{lp{13.5cm}|l}
-		\multicolumn{2}{l|}{\textbf{#1 | }\textbf{#2}} 
+		\multicolumn{2}{l|}{\textbf{#1 \vrule \ }\textbf{#2}} 
 		& \textsc{#5}~-~%
 			\ifthenelse{\isempty{#6}}{\textsl{Current}\\}{\textsc{#6}\\}
 		#3 & \textit{#4} \\
@@ -120,7 +129,7 @@
 \newcommand{\jobItem}[1]{\tabitem& #1 }
 
 % Degree
-% Displays a new Degreee
+% Displays a new Degree
 %Takes 8 Args:
 % 1- Institution
 % 2 - time ( graduation or range)
@@ -131,11 +140,31 @@
 % 7 - thesis title
 % 8- thesis adviser
 \newcommand{\degree}[8]{
-    \textbf{#1} & \textsc{#2} \\
-    \textit{#3} \textit{in #4} | \textbf{GPA:} #5  & \textit{#6} \\
-    \textbf{Thesis:} ``#7'' | \textbf{Adviser:} #8 & \\
+	\degreeNoThesis{#1}{#2}{#3}{#4}{#5}{#6}
+	\textbf{Thesis:} ``#7'' \vrule \ \textbf{Adviser:} #8 & \\
 }
 
+%Creates an education environment for an education section
+\newenvironment{education}{
+	\section{Education}
+	\begin{tabular}{p{14.2cm}|l}
+}
+{
+	\end{tabular}
+}
+% Degree without a thesis
+% Displays a new Degree
+%Takes 8 Args:
+% 1- Institution
+% 2 - time ( graduation or range)
+% 3 - degree type (B.S., M.S., etc....)
+% 4 - major ( E.g. Nuclear ...)
+% 5 - GPA 
+% 6 - location (e.g. Cambridge)
+\newcommand{\degreeNoThesis}[6]{
+    \textbf{#1} & \textsc{#2} \\
+    \textit{#3} \textit{in #4} \vrule \ \textbf{GPA:} #5  & \textit{#6} \\
+}
 %How big to make the class table paragraph
 \newcommand{\classSpacing}{6.5cm}
 
@@ -155,7 +184,6 @@
 \newcommand{\classSection}[1]{%
     \textbf{Relevant Classwork:} & \\
     #1 & \\
-    \multicolumn{2}{}{}\\
 }
 
 %class
@@ -195,5 +223,14 @@
 	\end{tikzpicture}
 }
 
+%%%%%%%%%%%%%%%% Makes a skill bullet point
+\newcommand{\skillBullet}[1]{
+	#1 \hfil
+}
 
+
+
+
+%%%%%%%%%%%%%%%End of the INPUT%%%%%%%%%%%%%%%%%%%%
 \endinput
+
