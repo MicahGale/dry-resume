@@ -1,7 +1,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesClass{resume}[2019/01/08 resume]
+\ProvidesClass{resume}[2020/05/16 resume]
 
 \LoadClass[11pt]{article}
 \RequirePackage[letterpaper, margin=0.75in]{geometry}
@@ -16,6 +16,7 @@
 		ItalicFeatures  = {SmallCapsFont=Fontin-Italic}]
 
 \titleformat{\section}{\Large\scshape\raggedright}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\bf\raggedright}{}{0em}{}
 \titlespacing{\section}{0pt}{3pt}{3pt}
 
 %Tweak a bit the top margin

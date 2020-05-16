@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesPackage{resumeDesc}[2019/01/08]
+\ProvidesPackage{resumeDesc}[2020/05/16]
 
 \RequirePackage{color}
 \RequirePackage[usenames,dvipsnames]{xcolor}
@@ -85,8 +85,8 @@
 \newenvironment{job}[6]
 {%
 	\begin{tabular}{lp{13.5cm}|l}
-		\multicolumn{2}{l|}{\textbf{#1 \vrule \ }\textbf{#2}} 
-		& \textsc{#5}~-~%
+		\multicolumn{2}{l|}{\subsection{#1}\ \textbf{\vrule \ #2}} 
+		& \textsc{#5}~---~%
 			\ifthenelse{\isempty{#6}}{\textsl{Current}\\}{\textsc{#6}\\}
 		#3 & \textit{#4} \\
 }
@@ -152,7 +152,7 @@
 % 6 - location (e.g. Cambridge)
 \newcommand{\degreeNoThesis}[6]{
     \textbf{#1} & \textsc{#2} \\
-    \textit{#3} \textit{in #4} \vrule \ \textbf{GPA:} #5  & \textit{#6} \\
+    \textit{#3 in #4} \vrule \ \textbf{GPA:} #5  & \textit{#6} \\
 }
 %How big to make the class table paragraph
 \newcommand{\classSpacing}{6.5cm}
