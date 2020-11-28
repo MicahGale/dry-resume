@@ -1,7 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 
-\ProvidesPackage{resumeDesc}[2020/05/16]
-
+\ProvidesPackage{resumeDesc}[2019/01/15]
 \RequirePackage{color}
 \RequirePackage[usenames,dvipsnames]{xcolor}
 \RequirePackage{enumitem}
@@ -84,9 +83,9 @@
 %6 - Job end (optional)
 \newenvironment{job}[6]
 {%
-	\begin{tabular}{lp{13.5cm}|l}
-		\multicolumn{2}{l|}{\subsection{#1}\ \textbf{\vrule \ #2}} 
-		& \textsc{#5}~---~%
+	\begin{tabular}{lp{13.5cm}|p{3.85cm}}
+		\multicolumn{2}{l|}{\bfseries #1\ \textbf{\vrule \ #2}} 
+		& \textsc{#5}~--~%
 			\ifthenelse{\isempty{#6}}{\textsl{Current}\\}{\textsc{#6}\\}
 		#3 & \textit{#4} \\
 }
@@ -130,7 +129,7 @@
 % 8- thesis adviser
 \newcommand{\degree}[8]{
 	\degreeNoThesis{#1}{#2}{#3}{#4}{#5}{#6}
-	\textbf{Thesis:} ``#7'' \vrule \ \textbf{Adviser:} #8 & \\
+	{\bfseries Thesis:} ``#7'' \vrule \ {\bfseries Advisor:} #8 & \\
 }
 
 %Creates an education environment for an education section
@@ -151,8 +150,8 @@
 % 5 - GPA 
 % 6 - location (e.g. Cambridge)
 \newcommand{\degreeNoThesis}[6]{
-    \textbf{#1} & \textsc{#2} \\
-    \textit{#3 in #4} \vrule \ \textbf{GPA:} #5  & \textit{#6} \\
+    \multicolumn{1}{l|}{#1} & {\scshape #2} \\
+    {\itshape #3 in #4} \vrule \ {\bfseries GPA:} #5  & {\itshape #6} \\
 }
 %How big to make the class table paragraph
 \newcommand{\classSpacing}{6.5cm}
@@ -171,7 +170,11 @@
 % wraps a classes environment to make it pretty
 %args: a class environment filled with classes
 \newcommand{\classSection}[1]{%
-    \textbf{Relevant Classwork:} & \\
+	\textbf{Relevant Classwork:} & \\
+    #1 & \\
+}
+\newcommand{\PDsection}[1]{%
+	\textbf{Professional Development:} & \\
     #1 & \\
 }
 
@@ -181,10 +184,10 @@
 %Arguments:
 % 1 Class name
 \newcommand{\class}[1]{%
-	\tabitem& #1% 
+	\tabitem & #1% 
     \ifthenelse{%    
             \intcalcMod{\value{classCounter}}{2}=0
-    }{\\}{&}
+    }{\\}{&}%
     \stepcounter{classCounter}%
 }
 
